@@ -19,7 +19,7 @@ st.set_page_config(
 )
 
 
-add_selectitem = st.sidebar.selectbox("Want to open about?", ("About this app!", "Heart Disease!", "About Creator!"))
+add_selectitem = st.sidebar.selectbox("Want to open about?", ("About this app!", "Heart Disease Prediction!", "About Creator!"))
 
 def heart():
 
@@ -123,33 +123,40 @@ def heart():
     input_df = user_input_features()
 
     st.subheader('Data Pasien yang Akan Diprediksi:')
-    st.write(input_df)
+    st.dataframe(input_df, hide_index=True)
+
 
     # Tombol Prediksi
     if st.sidebar.button('Predict!'):
         with st.spinner('Menganalisis data... Mohon tunggu'):
             time.sleep(2) # Durasi animasi 2 detik (lebih nyaman untuk user)
             
-            # Prediksi menggunakan model yang sudah di-load di awal script
-            prediction = model.predict(input_df)
-            
+            # =========================
+            # Prediksi Probabilitas
+            # =========================
+            probability = model.predict_proba(input_df)[0][1]
+
+            prediction = 1 if probability >= 0.58 else 0
+
+            # =========================
+            # Output ke User
+            # =========================
             st.divider()
-            st.subheader('Hasil Analisis Model: ')
-            
-            if prediction[0] == 0:
-                st.success("Hasil: **No Heart Disease** (Kondisi jantung terdeteksi normal)")
+            st.subheader('Hasil Analisis Model:')
+
+            if prediction == 1:
+                st.error("⚠️ **Heart Disease** (Terdeteksi risiko penyakit jantung)")
             else:
-                st.error("Hasil: **Heart Disease** (Terdeteksi risiko penyakit jantung)")
-            
-            st.caption("Selalu konsultasikan hasil ini dengan tenaga medis profesional.")
+                st.success("✅ **No Heart Disease** (Kondisi jantung terdeteksi normal)")
+
 
 
 def about_heart_disease():
 
-    st.title("Mengenal Penyakit Jantung")
+    st.title("Mengenal Heart Disease / Penyakit Jantung")
     
     st.write("""
-    Penyakit jantung adalah kondisi di mana jantung mengalami gangguan, baik pada pembuluh darah jantung, 
+    Penyakit jantung(Heart Disease) adalah kondisi di mana jantung mengalami gangguan, baik pada pembuluh darah jantung, 
     katup jantung, atau otot jantung. Berdasarkan data WHO, penyakit kardiovaskular adalah penyebab 
     kematian nomor satu di dunia.
     """)
@@ -280,10 +287,8 @@ if add_selectitem == "About this app!":
     st.write("### Welcome to my machine learning dashboard")
     st.write("Created by: [@nero_oid](https://www.instagram.com/nero_oid/)")
     about_heart_disease()
-elif add_selectitem == "Heart Disease!":
+elif add_selectitem == "Heart Disease Prediction!":
     heart()
 elif add_selectitem == "About Creator!":
     about_me()
-
-
 
