@@ -209,7 +209,21 @@ def about_me():
     
     st.write("---")
     st.write("### Let's Connect!")
-    st.write("📷 Instagram: [@nero_oid](https://www.instagram.com/nero_oid/)")
+    col_ig, col_li, col_mail = st.columns(3)
+    
+    with col_ig:
+        st.write("📷 **Instagram**")
+        st.write("[@nero_oid](https://www.instagram.com/nero_oid/)")
+        
+    with col_li:
+        st.write("💼 **LinkedIn**")
+        # Ganti 'zacky-bayu' dengan username LinkedIn kamu yang asli
+        st.write("[Let's Connect](https://www.linkedin.com/in/zackybayup/)")
+        
+    with col_mail:
+        st.write("📧 **Email**")
+        # Ganti dengan alamat Gmail kamu
+        st.write("[thedumbestknightever@gmail.com](mailto:thedumbestknightever@gmail.com)")
 
 
 if add_selectitem == "About this app!":
@@ -221,6 +235,7 @@ elif add_selectitem == "Heart Disease!":
     heart()
 elif add_selectitem == "About Creator!":
     about_me()
+
 
 
 
