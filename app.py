@@ -162,13 +162,12 @@ def about_heart_disease():
 
 def about_me():
     st.title("👤 About the Developer")
+    st.write("##")
     
     col1, col2 = st.columns([1, 2])
     
-    with col1:
-        st.write("##") 
-        st.title("👨‍💻") 
-        # st.image("foto_zacky.jpg", width=200) # Aktifkan ini jika sudah ada foto
+    with col1: 
+        st.image("profile_image.jpg", width=200) # Aktifkan ini jika sudah ada foto
 
     with col2:
         st.subheader("Zacky Bayu Prasongko")
@@ -235,6 +234,7 @@ elif add_selectitem == "Heart Disease!":
     heart()
 elif add_selectitem == "About Creator!":
     about_me()
+
 
 
 
