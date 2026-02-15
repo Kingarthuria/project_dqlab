@@ -10,6 +10,7 @@ location_file = 'generate_heart_disease.pkl'
 with open(location_file, 'rb') as file:
     model = pickle.load(file)
 
+
 # Page Configuration
 
 st.set_page_config(
@@ -21,23 +22,24 @@ st.set_page_config(
 add_selectitem = st.sidebar.selectbox("Want to open about?", ("About this app!", "Heart Disease!", "About Creator!"))
 
 def heart():
-    # Bagian ini fokus ke deskripsi singkat aplikasi
-    st.write("""
-    Aplikasi ini memprediksi risiko **Penyakit Jantung** menggunakan model Machine Learning (Random Forest). 
-    Silakan masukkan data medis melalui panel di sebelah kiri.
+
+    st.title('Prediksi Risiko Penyakit Jantung')
+    
+    st.markdown("""
+    Aplikasi ini dirancang untuk membantu Anda melakukan **skrining mandiri** terhadap risiko penyakit jantung. 
+    Kami menggunakan algoritma **Random Forest Classifier** yang telah dilatih menggunakan data medis historis untuk memberikan prediksi yang akurat.
     """)
-    
-    # Menampilkan Gambar dengan proteksi error (Try-Except)
-    try:
-        img = Image.open("heart-disease.jpg")
-    
-        col1, col2, col3 = st.columns([1, 2, 1])
-    
-        with col2:
-            st.image(img, width=500)
-        
-    except FileNotFoundError:
-        st.info("⚠️ Gambar Sedang Error / Tidak Tersedia")
+
+    # Menambahkan Petunjuk Penggunaan dalam Expander agar rapi
+    with st.expander("📖 Cara Menggunakan Aplikasi"):
+        st.markdown("""
+        1. **Isi Data Medis:** Masukkan informasi kesehatan Anda pada panel **Sidebar di sebelah kiri**.
+        2. **Perhatikan Keterangan:** Baca keterangan di bawah slider/selectbox untuk memahami setiap parameter.
+        3. **Klik Tombol Predict:** Setelah semua data terisi, tekan tombol **'Predict!'** di sidebar.
+        4. **Lihat Hasil:** Hasil analisis akan muncul pada bagian bawah.
+        """)
+
+    st.divider()
 
     # Fungsi untuk menangkap input dari sidebar
     def user_input_features():
@@ -223,21 +225,17 @@ def about_me():
         st.write("📧 **Email**")
         # Ganti dengan alamat Gmail kamu
         st.write("[thedumbestknightever@gmail.com](mailto:thedumbestknightever@gmail.com)")
+    
 
 
 if add_selectitem == "About this app!":
-    about_heart_disease()
-elif add_selectitem == "Heart Disease!":
+    # Tambahkan judul dashboard di sini agar muncul sekali di atas
     st.title('Heart Disease Prediction App')
     st.write("### Welcome to my machine learning dashboard")
     st.write("Created by: [@nero_oid](https://www.instagram.com/nero_oid/)")
-    st.write("##")
+    about_heart_disease()
+elif add_selectitem == "Heart Disease!":
     heart()
 elif add_selectitem == "About Creator!":
     about_me()
-
-
-
-
-
 
