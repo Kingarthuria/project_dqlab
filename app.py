@@ -270,7 +270,7 @@ def about_me():
     with col_mail:
         st.write("📧 **Email**")
         # Ganti dengan alamat Gmail kamu
-        st.write("[thedumbestknightever@gmail.com](mailto:thedumbestknightever@gmail.com)")
+        st.write("thedumbestknightever@gmail.com")
     
 
 
@@ -284,5 +284,6 @@ elif add_selectitem == "Heart Disease!":
     heart()
 elif add_selectitem == "About Creator!":
     about_me()
+
 
 
