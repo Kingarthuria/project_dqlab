@@ -44,34 +44,80 @@ def heart():
     # Fungsi untuk menangkap input dari sidebar
     def user_input_features():
         st.sidebar.header('Manual Input Pasien')
-        
-        # Slider dan Input
-        cp = st.sidebar.slider('Tipe Nyeri Dada (CP)', 1, 4, 2)
-        # Menampilkan keterangan teks berdasarkan angka CP
-        if cp == 1.0: wcp = "Nyeri dada tipe angina"
-        elif cp == 2.0: wcp = "Nyeri dada tipe tidak stabil"
-        elif cp == 3.0: wcp = "Nyeri dada tidak stabil parah"
-        else: wcp = "Nyeri dada bukan masalah jantung"
-        st.sidebar.caption(f"Keterangan: {wcp}")
+
+        # =========================
+        # Mapping Kategori (Indonesia → Numeric)
+        # =========================
+        sex_map = {
+            'Perempuan': 0,
+            'Laki-laki': 1
+        }
+
+        cp_map = {
+            'Angina tipikal': 0,
+            'Angina atipikal': 1,
+            'Nyeri non-angina': 2,
+            'Tanpa gejala (asimtomatik)': 3
+        }
+
+        slope_map = {
+            'Menurun (downsloping)': 0,
+            'Datar (flat)': 1,
+            'Meningkat (upsloping)': 2
+        }
+
+        exang_map = {
+            'Tidak': 0,
+            'Ya': 1
+        }
+
+        thal_map = {
+            'Normal': 1,
+            'Cacat tetap (fixed defect)': 2,
+            'Cacat reversibel (reversable defect)': 3
+        }
+
+        # =========================
+        # Input User (Human-readable)
+        # =========================
+        sex_label = st.sidebar.selectbox("Jenis Kelamin", list(sex_map.keys()))
+        cp_label = st.sidebar.selectbox("Tipe Nyeri Dada (CP)", list(cp_map.keys()))
+        slope_label = st.sidebar.selectbox("Kemiringan Segmen ST (Slope)", list(slope_map.keys()))
+        exang_label = st.sidebar.selectbox("Nyeri Dada saat Berolahraga (Exang)", list(exang_map.keys()))
+        thal_label = st.sidebar.selectbox("Hasil Tes Thalium", list(thal_map.keys()))
 
         thalach = st.sidebar.slider("Detak Jantung Maksimum (thalach)", 88, 202, 150)
-        slope = st.sidebar.slider("Kemiringan Segmen ST (slope)", 0, 2, 1)
         oldpeak = st.sidebar.slider("Depresi ST (oldpeak)", 0.0, 4.0, 1.0)
-        exang_raw = st.sidebar.selectbox("Apakah Anda merasa nyeri dada saat berolahraga?", ("Tidak", "Ya"))
-        exang = 1 if exang_raw == "Ya" else 0
-        ca = st.sidebar.slider("Jumlah Pembuluh Darah Utama (ca)", 0, 3, 0)
-        thal = st.sidebar.slider("Hasil Tes Thalium", 1, 3, 2)
-        
-        sex_raw = st.sidebar.selectbox("Jenis Kelamin", ('Perempuan', 'Pria'))
-        sex = 1 if sex_raw == 'Pria' else 0
-        
+
+        # ⬅️ CA tetap seperti sebelumnya (angka)
+        ca = st.sidebar.slider(
+            "Jumlah Pembuluh Darah Utama (CA)",
+            min_value=0,
+            max_value=3,
+            value=0,
+            help="Nilai 0–3 menunjukkan jumlah pembuluh darah utama"
+        )
+
         age = st.sidebar.slider("Usia", 29, 77, 45)
 
-        # Menyusun data ke DataFrame
-        data = {'cp': cp, 'thalach': thalach, 'slope': slope, 'oldpeak': oldpeak,
-                'exang': exang, 'ca': ca, 'thal': thal, 'sex': sex, 'age': age}
+        # =========================
+        # Konversi ke Numeric (untuk Model)
+        # =========================
+        data = {
+            'cp': cp_map[cp_label],
+            'thalach': thalach,
+            'slope': slope_map[slope_label],
+            'oldpeak': oldpeak,
+            'exang': exang_map[exang_label],
+            'ca': ca,                     
+            'thal': thal_map[thal_label],
+            'sex': sex_map[sex_label],
+            'age': age
+        }
+
         features = pd.DataFrame(data, index=[0])
         return features
+
 
     # Menjalankan fungsi input
     input_df = user_input_features()
@@ -238,4 +284,5 @@ elif add_selectitem == "Heart Disease!":
     heart()
 elif add_selectitem == "About Creator!":
     about_me()
+
 
