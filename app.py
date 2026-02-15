@@ -213,10 +213,14 @@ def about_me():
 
 
 if add_selectitem == "About this app!":
+    st.title('Heart Disease Prediction App')
+    st.write("### Welcome to my machine learning dashboard")
+    st.write("Created by: [@nero_oid](https://www.instagram.com/nero_oid/)")
     about_heart_disease()
 elif add_selectitem == "Heart Disease!":
     heart()
 elif add_selectitem == "About Creator!":
     about_me()
+
 
 
