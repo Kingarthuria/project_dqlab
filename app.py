@@ -3,10 +3,11 @@ import pandas as pd
 import pickle 
 import time
 from PIL import Image
+from sklearn.ensemble import RandomForestClassifier
 
 # Open Pickle
-
-with open('generate_heart_disease.pkl', 'rb') as file:
+location_file = 'generate_heart_disease.pkl'
+with open(location_file, 'rb') as file:
     model = pickle.load(file)
 
 # Page Configuration
@@ -217,4 +218,5 @@ elif add_selectitem == "Heart Disease!":
     heart()
 elif add_selectitem == "About Creator!":
     about_me()
+
 
