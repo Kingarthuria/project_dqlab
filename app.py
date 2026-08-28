@@ -71,22 +71,24 @@ def heart():
             'Cacat reversibel (reversable defect)': 3
         }
 
-        st.sidebar.subheader("Profil Pasien")
-        sex_label = st.sidebar.selectbox("Jenis Kelamin", list(sex_map.keys()))
-        age = st.sidebar.slider("Usia", 29, 77, 45)
+        with st.sidebar.container(border=True):
+            st.caption("PROFIL PASIEN")
+            sex_label = st.selectbox("Jenis Kelamin", list(sex_map.keys()))
+            age = st.slider("Usia", 29, 77, 45)
 
-        st.sidebar.subheader("Hasil Uji Klinis")
-        cp_label = st.sidebar.selectbox("Tipe Nyeri Dada (CP)", list(cp_map.keys()))
-        thalach = st.sidebar.slider("Detak Jantung Maksimum (thalach)", 88, 202, 150)
-        exang_label = st.sidebar.selectbox("Nyeri Dada saat Berolahraga (Exang)", list(exang_map.keys()))
-        oldpeak = st.sidebar.slider("Depresi ST (oldpeak)", 0.0, 4.0, 1.0)
-        slope_label = st.sidebar.selectbox("Kemiringan Segmen ST (Slope)", list(slope_map.keys()))
-        ca = st.sidebar.slider(
-            "Jumlah Pembuluh Darah Utama (CA)",
-            min_value=0, max_value=3, value=0,
-            help="Nilai 0–3 menunjukkan jumlah pembuluh darah utama"
-        )
-        thal_label = st.sidebar.selectbox("Hasil Tes Thalium", list(thal_map.keys()))
+        with st.sidebar.container(border=True):
+            st.caption("HASIL UJI KLINIS")
+            cp_label = st.selectbox("Tipe Nyeri Dada (CP)", list(cp_map.keys()))
+            thalach = st.slider("Detak Jantung Maksimum (thalach)", 88, 202, 150)
+            exang_label = st.selectbox("Nyeri Dada saat Berolahraga (Exang)", list(exang_map.keys()))
+            oldpeak = st.slider("Depresi ST (oldpeak)", 0.0, 4.0, 1.0)
+            slope_label = st.selectbox("Kemiringan Segmen ST (Slope)", list(slope_map.keys()))
+            ca = st.slider(
+                "Jumlah Pembuluh Darah Utama (CA)",
+                min_value=0, max_value=3, value=0,
+                help="Nilai 0–3 menunjukkan jumlah pembuluh darah utama"
+            )
+            thal_label = st.selectbox("Hasil Tes Thalium", list(thal_map.keys()))
 
         data = {
             'cp': cp_map[cp_label],
@@ -121,12 +123,31 @@ def heart():
 
             with col1:
                 if prediction == 1:
-                    st.error("Heart Disease, Terdeteksi risiko penyakit jantung")
+                    st.error("Heart Disease — Terdeteksi risiko penyakit jantung")
                 else:
-                    st.success("No Heart Disease, Kondisi jantung terdeteksi normal")
+                    st.success("No Heart Disease — Kondisi jantung terdeteksi normal")
 
                 st.write(f"Probabilitas risiko: {probability:.1%}")
-                st.progress(float(probability))
+
+                if probability >= 0.75:
+                    bar_color = "#e02424"  # merah tua — bahaya, segera periksa
+                elif probability >= THRESHOLD:
+                    bar_color = "#f59e0b"  # oranye — berisiko
+                else:
+                    bar_color = "#16a34a"  # hijau — normal
+
+                st.markdown(
+                    f"""
+                    <div style="background-color:#333; border-radius:6px; height:14px; width:100%;">
+                        <div style="background-color:{bar_color}; width:{probability*100}%;
+                                    height:100%; border-radius:6px;"></div>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+                if probability >= 0.75:
+                    st.caption("Skor risiko sangat tinggi — segera periksakan diri ke dokter.")
 
             with col2:
                 st.metric("Skor Risiko", f"{probability:.1%}")
@@ -244,7 +265,7 @@ def about_me():
 
     with col_li:
         st.write("LinkedIn")
-        st.write("[zackybayup](https://www.linkedin.com/in/zackybayup/)")
+        st.write("[Arthur Pendragon](https://www.linkedin.com/in/arthurpendragon/)")
 
     with col_mail:
         st.write("Email")
