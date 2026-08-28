@@ -72,5 +72,5 @@ Aplikasi ini adalah alat bantu berbasis Machine Learning dan bukan merupakan sar
 Zacky Bayu Prasongko
 
 - Instagram: [@nero_oid](https://www.instagram.com/nero_oid/)
-- LinkedIn: [zackybayup](https://www.linkedin.com/in/zackybayup/)
+- LinkedIn: [Arthur Pendragon](https://www.linkedin.com/in/arthurpendragon/)
 - Email: thedumbestknightever@gmail.com
